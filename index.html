@@ -1,0 +1,1517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reading Plan</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#13284f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Reading Plan">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: a flight log for a long read. A navy status band carries a 164-hour strip
+   (one segment per module, sized by its hours, grouped by part); below it, sticky tabs
+   and the plan as expandable module checklists. */
+:root {
+  --bg: #f1f3f7;
+  --surface: #ffffff;
+  --sunk: #e5e9f0;
+  --ink: #121a2b;
+  --muted: #566177;
+  --line: #d7dde7;
+  --accent: #1f3d7a;
+  --on-accent: #ffffff;
+  --accent-soft: #e4eaf6;
+  --red: #b3242b;
+  --red-soft: #f8ebeb;
+  --done: #2a7649;
+  --on-done: #ffffff;
+  --done-soft: #e1f0e6;
+  --band: #13284f;
+  --band-ink: #ffffff;
+  --band-muted: #b3c0da;
+  --band-track: rgba(255, 255, 255, 0.17);
+  --band-fill: #a9c6ff;
+  --band-done: #86d8a8;
+  --focus: #2f6fdf;
+  --shadow: 0 1px 2px rgba(18, 26, 43, 0.06), 0 3px 10px rgba(18, 26, 43, 0.05);
+
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-ui: "Barlow", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-read: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.0625rem;
+  --step-2: 1.3125rem;
+  --step-3: 1.75rem;
+  --step-4: 2.25rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a0f19;
+    --surface: #111a2a;
+    --sunk: #1b2539;
+    --ink: #e4e9f2;
+    --muted: #97a3ba;
+    --line: #253249;
+    --accent: #9fbcff;
+    --on-accent: #0a0f19;
+    --accent-soft: #1a2847;
+    --red: #ff8085;
+    --red-soft: #2a171a;
+    --done: #66c992;
+    --on-done: #0a0f19;
+    --done-soft: #13291d;
+    --band: #0f1d3b;
+    --band-ink: #f2f5fb;
+    --band-muted: #9eacc8;
+    --band-track: rgba(255, 255, 255, 0.13);
+    --band-fill: #9fbcff;
+    --band-done: #66c992;
+    --focus: #8fb2ff;
+    --shadow: none;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0a0f19;
+  --surface: #111a2a;
+  --sunk: #1b2539;
+  --ink: #e4e9f2;
+  --muted: #97a3ba;
+  --line: #253249;
+  --accent: #9fbcff;
+  --on-accent: #0a0f19;
+  --accent-soft: #1a2847;
+  --red: #ff8085;
+  --red-soft: #2a171a;
+  --done: #66c992;
+  --on-done: #0a0f19;
+  --done-soft: #13291d;
+  --band: #0f1d3b;
+  --band-ink: #f2f5fb;
+  --band-muted: #9eacc8;
+  --band-track: rgba(255, 255, 255, 0.13);
+  --band-fill: #9fbcff;
+  --band-done: #66c992;
+  --focus: #8fb2ff;
+  --shadow: none;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-0);
+  line-height: 1.45;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--bg);
+}
+a { color: var(--accent); text-underline-offset: 2px; text-decoration-thickness: 1px; }
+em { font-style: italic; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.wrap {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- status band ---------- */
+.band { background: var(--band); color: var(--band-ink); }
+.band .wrap { padding-block: 22px 18px; }
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--band-muted);
+}
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 6.4vw, 2.5rem);
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+.status { display: flex; align-items: flex-end; gap: 14px; margin-top: 18px; }
+.pct {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+.pct small { font-size: 0.5em; font-weight: 500; color: var(--band-muted); margin-left: 1px; }
+.status-text { min-width: 0; padding-bottom: 2px; }
+.status-text .main { font-size: var(--step-1); font-weight: 600; }
+.status-sub { margin-top: 2px; font-size: var(--step--1); color: var(--band-muted); font-variant-numeric: tabular-nums; }
+
+.strip { display: flex; gap: 6px; margin-top: 16px; }
+.strip-part { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.strip-segs { display: flex; gap: 2px; }
+.seg {
+  position: relative;
+  display: block;
+  height: 12px;
+  min-width: 0;
+  flex: 1 1 0;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: var(--band-track);
+  overflow: hidden;
+  cursor: pointer;
+}
+.seg i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--band-fill); }
+.seg.done i { background: var(--band-done); }
+.seg:focus-visible { outline-color: var(--band-ink); }
+.strip-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  color: var(--band-muted);
+}
+
+/* ---------- tabs ---------- */
+.tabs {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.tabs .wrap { display: flex; gap: 4px; }
+.tab {
+  flex: 1 1 0;
+  min-height: 46px;
+  padding: 0 8px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font-weight: 600;
+  font-size: var(--step-0);
+  color: var(--muted);
+  cursor: pointer;
+}
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tabs-progress { height: 2px; background: var(--sunk); }
+.tabs-progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.3s ease; }
+
+main .wrap { padding-block: 18px 72px; }
+.view[hidden] { display: none; }
+
+/* ---------- up next ---------- */
+.next {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 14px 16px 6px;
+  margin-bottom: 26px;
+}
+.next-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.label {
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.next .label { color: var(--red); }
+.linkish {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.next-done { margin: 6px 0 10px; font-family: var(--font-read); }
+
+/* ---------- parts and modules ---------- */
+.part { margin-bottom: 30px; }
+.part-h {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-2);
+  line-height: 1.1;
+}
+.part-h .pnum { color: var(--red); letter-spacing: 0.04em; white-space: nowrap; }
+.part-h .pname { min-width: 0; text-wrap: balance; }
+.part-h .pcount {
+  margin-left: auto;
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.mods { display: grid; gap: 10px; }
+.mod {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 60px);
+}
+.mod-head {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 12px;
+  width: 100%;
+  padding: 12px 14px 15px;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.mnum {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1.5px solid var(--line);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.375rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.mod[data-state="doing"] .mnum { border-color: var(--accent); color: var(--accent); }
+.mod[data-state="done"] .mnum { background: var(--done); border-color: var(--done); color: var(--on-done); }
+.mtitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-2);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.mmeta {
+  grid-column: 2;
+  font-size: var(--step--1);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.mod[data-state="done"] .mmeta { color: var(--done); font-weight: 600; }
+.chev {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg) translateY(-3px);
+  transition: transform 0.2s ease;
+}
+.mod-head[aria-expanded="true"] .chev { transform: rotate(225deg) translateY(-1px); }
+.mbar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--sunk); }
+.mbar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.3s ease; }
+.mod[data-state="done"] .mbar i { background: var(--done); }
+
+.mod-body { padding: 4px 16px 18px; border-top: 1px solid var(--line); }
+.lead { margin: 12px 0 4px; font-family: var(--font-read); font-size: var(--step-1); line-height: 1.5; }
+.sub {
+  margin: 18px 0 4px;
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sub .group { color: var(--ink); letter-spacing: 0.06em; }
+
+/* ---------- check items ---------- */
+.checks { list-style: none; margin: 0; padding: 0; }
+.checks li + li { border-top: 1px solid var(--line); }
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 12px;
+  padding: 11px 0;
+  cursor: pointer;
+}
+.item input {
+  position: absolute;
+  top: 9px;
+  left: -4px;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.box {
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  border: 2px solid var(--muted);
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.box::after {
+  content: "";
+  width: 6px;
+  height: 12px;
+  margin-top: -3px;
+  border-right: 2.5px solid var(--on-accent);
+  border-bottom: 2.5px solid var(--on-accent);
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.15s ease;
+}
+.item input:checked + .box { background: var(--accent); border-color: var(--accent); }
+.item input:checked + .box::after { transform: rotate(45deg) scale(1); }
+.item input:focus-visible + .box { outline: 2px solid var(--focus); outline-offset: 2px; }
+.item .text { min-width: 0; overflow-wrap: anywhere; }
+.item input:checked ~ .text { color: var(--muted); }
+.item input:checked ~ .text a { color: var(--muted); }
+.optional .box { border-style: dashed; }
+.optional .item input:checked + .box { border-style: solid; }
+
+/* ---------- module extras ---------- */
+.note {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--sunk);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.concepts p, .canada p { margin: 0; font-family: var(--font-read); font-size: var(--step-0); line-height: 1.55; }
+.canada { margin-top: 18px; padding: 12px 14px 14px; border-radius: 10px; background: var(--red-soft); }
+.canada .sub { margin-top: 0; color: var(--red); }
+.questions { margin: 6px 0 0; padding: 0; list-style: none; counter-reset: q; }
+.questions li {
+  counter-increment: q;
+  position: relative;
+  padding: 6px 0 6px 30px;
+  font-family: var(--font-read);
+  line-height: 1.5;
+}
+.questions li::before {
+  content: counter(q);
+  position: absolute;
+  left: 0;
+  top: 5px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-1);
+  color: var(--red);
+}
+
+/* ---------- library ---------- */
+.intro { margin: 0 0 14px; font-family: var(--font-read); line-height: 1.5; }
+.filter {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+}
+.lib-group { margin-top: 22px; }
+.lib-group h2 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-1);
+  line-height: 1.15;
+}
+.lib-group h2 .gnum { color: var(--red); margin-right: 6px; }
+.lib-list { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.lib-list li { padding: 11px 14px; }
+.lib-list li + li { border-top: 1px solid var(--line); }
+.lib-doc { font-weight: 500; overflow-wrap: anywhere; }
+.lib-meta { margin-top: 2px; font-size: var(--step--1); color: var(--muted); }
+.empty { margin-top: 18px; color: var(--muted); }
+.nw { white-space: nowrap; }
+
+/* ---------- about ---------- */
+.prose { font-family: var(--font-read); font-size: var(--step-1); line-height: 1.55; }
+.prose p { margin: 0 0 12px; }
+.prose ol { margin: 0 0 14px; padding-left: 1.4em; }
+.prose li { margin-bottom: 6px; }
+.prose strong { font-family: var(--font-ui); font-weight: 700; }
+.section-h {
+  margin: 34px 0 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-3);
+  line-height: 1.05;
+}
+.books { display: grid; gap: 10px; }
+.book { padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.book .b-title { font-family: var(--font-read); }
+.book .b-why { margin-top: 4px; font-size: var(--step--1); color: var(--muted); }
+.plain-list { margin: 0; padding-left: 1.2em; font-family: var(--font-read); line-height: 1.55; }
+.plain-list li { margin-bottom: 6px; }
+
+.panel { padding: 14px 16px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.store-status { margin: 0 0 12px; }
+.store-status.warn { color: var(--red); }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--sunk);
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.danger { color: var(--red); }
+.btn.danger-solid { background: var(--red); border-color: var(--red); color: var(--surface); }
+.subpanel { margin-top: 14px; }
+.subpanel textarea {
+  width: 100%;
+  min-height: 92px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font: 0.8125rem/1.4 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  resize: vertical;
+}
+.msg { margin: 10px 0 0; font-size: var(--step--1); color: var(--muted); }
+.msg.err { color: var(--red); }
+.asof { margin-top: 26px; font-size: var(--step--1); color: var(--muted); }
+
+/* ---------- toast ---------- */
+.toast {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  max-width: 30rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px 10px 16px;
+  border-radius: 12px;
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+.toast span { flex: 1; min-width: 0; font-size: var(--step--1); }
+.toast button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--bg);
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .band .wrap { padding-block: 30px 22px; }
+  .pct { font-size: 3.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* ---------- standalone page: own reset, Home Screen safe areas, GitHub sync ---------- */
+:root { --band-warn: #ffb7ba; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+body::before { background: var(--band); }
+.band .wrap { padding-top: calc(22px + env(safe-area-inset-top, 0px)); }
+main .wrap { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+@media (min-width: 640px) {
+  .band .wrap { padding-top: calc(30px + env(safe-area-inset-top, 0px)); }
+}
+.sync-note { margin-top: 3px; font-size: var(--step--1); color: var(--band-muted); }
+.sync-note.warn { color: var(--band-warn); }
+.field {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+}
+.connect .label { display: block; margin: 14px 0 6px; }
+.connect .label:first-child { margin-top: 0; }
+.hint { margin: 8px 0 14px; font-size: var(--step--1); color: var(--muted); }
+.welcome { margin-top: 6px; }
+.welcome p { margin: 0 0 14px; font-family: var(--font-read); line-height: 1.5; }
+.welcome .hint, .welcome .msg { font-family: var(--font-ui); margin: 8px 0 14px; }
+.section-h.first { margin-top: 0; }
+.rule { border: 0; border-top: 1px solid var(--line); margin: 18px 0 14px; }
+.store-status.small { font-size: var(--step--1); color: var(--muted); }
+
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <p class="eyebrow" id="eyebrow" hidden></p>
+    <h1 id="title">Reading plan</h1>
+    <div id="statusBlock" hidden>
+      <div class="status">
+        <div class="pct" aria-hidden="true"><span id="pct">0</span><small>%</small></div>
+        <div class="status-text">
+          <div class="main" id="statusMain"></div>
+          <div class="status-sub" id="statusSub"></div>
+          <div class="sync-note" id="syncNote" hidden></div>
+        </div>
+      </div>
+      <div class="strip" id="strip"></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs" aria-label="Sections" hidden>
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" id="tab-plan" aria-controls="view-plan" aria-selected="true" type="button">Plan</button>
+    <button class="tab" role="tab" id="tab-library" aria-controls="view-library" aria-selected="false" type="button">Library</button>
+    <button class="tab" role="tab" id="tab-about" aria-controls="view-about" aria-selected="false" type="button">About</button>
+  </div>
+  <div class="tabs-progress" aria-hidden="true"><i id="tabsProgress"></i></div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <p class="empty" id="loading">Loading…</p>
+
+    <section class="welcome" id="welcome" hidden>
+      <div class="panel">
+        <h2 class="section-h first">Connect your repository</h2>
+        <p>This page keeps its reading plan and your ticks in a private GitHub repository, so it shows nothing until you connect. Enter the repository and an access token for it.</p>
+        <div id="slotWelcome"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-plan" role="tabpanel" aria-labelledby="tab-plan" hidden>
+      <section class="next" id="next" aria-label="Up next"></section>
+      <div id="parts"></div>
+    </section>
+
+    <section class="view" id="view-library" role="tabpanel" aria-labelledby="tab-library" hidden>
+      <p class="intro" id="libIntro"></p>
+      <label class="label" for="libFilter">Find a document</label>
+      <input class="filter" id="libFilter" type="search" placeholder="Title, issuer or module number" autocomplete="off">
+      <div id="libGroups"></div>
+      <p class="empty" id="libEmpty" hidden>No documents match. Try a shorter word.</p>
+    </section>
+
+    <section class="view" id="view-about" role="tabpanel" aria-labelledby="tab-about" hidden>
+      <div class="prose" id="about"></div>
+
+      <h2 class="section-h">Worth buying later</h2>
+      <p class="intro" id="booksIntro"></p>
+      <div class="books" id="books"></div>
+
+      <h2 class="section-h">Keeping current</h2>
+      <ul class="plain-list" id="ongoing"></ul>
+
+      <h2 class="section-h">Sync and backup</h2>
+      <div class="panel">
+        <p class="store-status" id="storeStatus"></p>
+        <div id="slotAbout"></div>
+        <div class="actions" id="ghActions" hidden>
+          <button class="btn primary" id="btnSync" type="button">Sync now</button>
+          <button class="btn" id="btnDisconnectOpen" type="button" aria-expanded="false" aria-controls="disconnectPanel">Disconnect this device</button>
+        </div>
+        <div class="subpanel" id="disconnectPanel" hidden>
+          <p class="store-status">Remove the plan, your ticks and the token from this browser? They stay in your repository, and you can connect again later.</p>
+          <div class="actions">
+            <button class="btn danger-solid" id="btnDisconnect" type="button">Disconnect</button>
+            <button class="btn" id="btnDisconnectCancel" type="button">Cancel</button>
+          </div>
+        </div>
+        <hr class="rule">
+        <p class="store-status small">A backup code copies your ticks between browsers or copies of this page, with or without GitHub.</p>
+        <div class="actions">
+          <button class="btn" id="btnBackup" type="button">Copy backup code</button>
+          <button class="btn" id="btnRestoreOpen" type="button" aria-expanded="false" aria-controls="restorePanel">Restore from a code</button>
+          <button class="btn danger" id="btnClearOpen" type="button" aria-expanded="false" aria-controls="clearPanel">Clear all ticks</button>
+        </div>
+        <div class="subpanel" id="backupPanel" hidden>
+          <label class="label" for="backupText">Your backup code</label>
+          <textarea id="backupText" readonly></textarea>
+        </div>
+        <div class="subpanel" id="restorePanel" hidden>
+          <label class="label" for="restoreText">Paste a backup code</label>
+          <textarea id="restoreText" placeholder="SRP1:…"></textarea>
+          <div class="actions" style="margin-top:8px">
+            <button class="btn primary" id="btnRestore" type="button">Restore ticks</button>
+          </div>
+        </div>
+        <div class="subpanel" id="clearPanel" hidden>
+          <p class="store-status" id="clearPrompt"></p>
+          <div class="actions">
+            <button class="btn danger-solid" id="btnClear" type="button">Clear all ticks</button>
+            <button class="btn" id="btnClearCancel" type="button">Keep them</button>
+          </div>
+        </div>
+        <p class="msg" id="panelMsg" role="status"></p>
+      </div>
+      <p class="asof" id="asof"></p>
+    </section>
+  </div>
+</main>
+
+<form class="connect" id="connectForm" novalidate hidden>
+  <label class="label" for="ghRepo">Private repository</label>
+  <input class="field" id="ghRepo" name="username" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="your-username/reading-progress">
+  <label class="label" for="ghToken">Access token</label>
+  <input class="field" id="ghToken" name="password" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="github_pat_…">
+  <p class="hint">Use a fine-grained token that can only read and write this one repository (Contents: Read and write). It is kept in this browser and sent only to GitHub.</p>
+  <div class="actions"><button class="btn primary" id="btnConnect" type="submit">Connect</button></div>
+  <p class="msg" id="connectMsg" role="status"></p>
+</form>
+
+<div class="toast" id="toast" role="status" hidden><span id="toastText"></span><button type="button" id="toastUndo">Undo</button></div>
+
+<script>
+(function () {
+  "use strict";
+  var K = {
+    ticks: "reading-plan:v1",
+    ui: "reading-plan:ui",
+    gh: "reading-plan:github",
+    plan: "reading-plan:plan"
+  };
+  var PLAN_FILE = "plan.json";
+  var PROGRESS_FILE = "reading-progress.json";
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  function $(id) { return document.getElementById(id); }
+  function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { window.localStorage.setItem(k, v); return true; } catch (e) { return false; } }
+  function lsRemove(k) { try { window.localStorage.removeItem(k); } catch (e) { /* nothing to remove */ } }
+  function readJSON(k) { try { return JSON.parse(lsGet(k) || "null"); } catch (e) { return null; } }
+
+  /* ------------------------------------------------------------ ticks */
+  // items: id -> {d: 1 ticked | 0 unticked, t: time of the change, a: time it was ticked}.
+  // When two copies meet (this browser and the repository), the newest change to each item wins.
+  var state = { items: {} };
+  var localOK = null;
+
+  function cleanRecord(rec) {
+    if (!rec || typeof rec !== "object") return null;
+    var t = Number(rec.t);
+    if (!isFinite(t) || t <= 0) return null;
+    var out = { d: rec.d ? 1 : 0, t: t };
+    var a = Number(rec.a);
+    if (out.d && isFinite(a) && a > 0) out.a = a;
+    return out;
+  }
+  function mergeInto(target, src) {
+    var changed = false;
+    if (!src || typeof src !== "object") return false;
+    Object.keys(src).forEach(function (id) {
+      var rec = cleanRecord(src[id]);
+      if (!rec) return;
+      var cur = target[id];
+      if (!cur || rec.t > cur.t) { target[id] = rec; changed = true; }
+    });
+    return changed;
+  }
+  function isDone(id) { var r = state.items[id]; return !!(r && r.d); }
+  function doneAt(id) { var r = state.items[id]; return r && r.d ? (r.a || r.t) : 0; }
+  function loadLocal() { var o = readJSON(K.ticks); mergeInto(state.items, o && o.items); }
+  function saveLocal() { localOK = lsSet(K.ticks, JSON.stringify({ v: 1, items: state.items })); }
+
+  var ui = { open: null, tab: "plan" };
+  (function () { var o = readJSON(K.ui); if (o) { ui.open = Array.isArray(o.open) ? o.open : null; ui.tab = o.tab || "plan"; } })();
+  function saveUI() { lsSet(K.ui, JSON.stringify(ui)); }
+
+  /* ------------------------------------------------------------ GitHub */
+  var gh = readJSON(K.gh) || {};
+  var sync = { busy: false, again: false, current: null, timer: null, pending: false, blocked: false,
+               sha: undefined, status: "idle", err: null, lastPull: 0 };
+  function connected() { return !!(gh.repo && gh.token); }
+  function saveGh() {
+    if (connected()) lsSet(K.gh, JSON.stringify({ repo: gh.repo, token: gh.token, last: gh.last || 0, isPublic: !!gh.isPublic }));
+  }
+  function parseRepo(v) {
+    v = String(v || "").trim().replace(/^https?:\/\/(www\.)?github\.com\//i, "").replace(/\.git$/, "").replace(/\/+$/, "");
+    return /^[A-Za-z0-9-]+\/[A-Za-z0-9._-]+$/.test(v) ? v : null;
+  }
+  function b64enc(str) {
+    var bytes = new TextEncoder().encode(str), bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function b64dec(s) {
+    var bin = atob(String(s || "").replace(/\s+/g, "")), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+  function GhError(kind, status) { this.kind = kind; this.status = status; }
+  function api(method, path, body) {
+    var headers = { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + gh.token };
+    if (body) headers["Content-Type"] = "application/json";
+    return fetch("https://api.github.com" + path, {
+      method: method, headers: headers, body: body ? JSON.stringify(body) : undefined, cache: "no-store"
+    }).catch(function () { throw new GhError("network"); });
+  }
+  function failFor(res) {
+    if (res.status === 401) return new GhError("token", 401);
+    if (res.status === 403 && res.headers.get("x-ratelimit-remaining") === "0") return new GhError("rate", 403);
+    if (res.status === 403) return new GhError("forbidden", 403);
+    if (res.status === 404) return new GhError("missing", 404);
+    return new GhError("http", res.status);
+  }
+  function contents(file) { return "/repos/" + gh.repo + "/contents/" + file; }
+
+  function fetchPlan() {
+    return api("GET", contents(PLAN_FILE)).then(function (res) {
+      if (res.status === 404) throw new GhError("noplan", 404);
+      if (!res.ok) throw failFor(res);
+      return res.json();
+    }).then(function (j) {
+      var cached = readJSON(K.plan);
+      if (cached && cached.sha === j.sha && cached.data) return { changed: false, data: cached.data };
+      var data;
+      try { data = JSON.parse(b64dec(j.content)); } catch (e) { throw new GhError("badplan"); }
+      if (!data || !Array.isArray(data.modules)) throw new GhError("badplan");
+      lsSet(K.plan, JSON.stringify({ sha: j.sha, data: data }));
+      return { changed: true, data: data };
+    });
+  }
+  function pullProgress() {
+    return api("GET", contents(PROGRESS_FILE)).then(function (res) {
+      if (res.status === 404) { sync.sha = null; return null; }
+      if (!res.ok) throw failFor(res);
+      return res.json().then(function (j) {
+        sync.sha = j.sha;
+        var body;
+        try { body = JSON.parse(b64dec(j.content) || "{}"); } catch (e) { body = {}; }
+        return (body && body.items) || {};
+      });
+    }).then(function (items) {
+      if (items && mergeInto(state.items, items)) { saveLocal(); if (DATA) renderProgress(); }
+      sync.lastPull = Date.now();
+      return items;
+    });
+  }
+  function serialize() {
+    var sorted = {};
+    Object.keys(state.items).sort().forEach(function (k) { sorted[k] = state.items[k]; });
+    return JSON.stringify({ v: 1, items: sorted }, null, 1) + "\n";
+  }
+  function putProgress(attempt) {
+    var body = { message: sync.sha ? "Update reading progress" : "Start reading progress", content: b64enc(serialize()) };
+    if (sync.sha) body.sha = sync.sha;
+    return api("PUT", contents(PROGRESS_FILE), body).then(function (res) {
+      if (res.ok) return res.json().then(function (j) { if (j && j.content && j.content.sha) sync.sha = j.content.sha; });
+      // Another device saved first: merge its ticks and try again.
+      if ((res.status === 409 || res.status === 422) && attempt < 3) {
+        return pullProgress().then(function () { return putProgress(attempt + 1); });
+      }
+      throw failFor(res);
+    });
+  }
+  function needsPush(remoteItems) {
+    remoteItems = remoteItems || {};
+    return Object.keys(state.items).some(function (id) {
+      var r = cleanRecord(remoteItems[id]);
+      return !r || r.t < state.items[id].t;
+    });
+  }
+  function runSync() {
+    if (!connected()) return Promise.resolve();
+    if (sync.busy) { sync.again = true; return sync.current; }
+    sync.busy = true;
+    clearTimeout(sync.timer);
+    var hadPending = sync.pending;
+    sync.pending = false;
+    setSyncStatus("syncing");
+    sync.current = pullProgress().then(function (items) {
+      if (items === null || needsPush(items)) return putProgress(0);
+    }).then(function () {
+      gh.last = Date.now();
+      saveGh();
+      setSyncStatus("ok");
+    }, function (err) {
+      if (hadPending) sync.pending = true;
+      if (err && err.kind === "token") sync.blocked = true;
+      setSyncStatus("error", err);
+    }).then(function () {
+      sync.busy = false;
+      if (sync.again) { sync.again = false; return runSync(); }
+    });
+    return sync.current;
+  }
+  function markChanged(delay) {
+    if (!connected() || sync.blocked) return;
+    sync.pending = true;
+    clearTimeout(sync.timer);
+    sync.timer = setTimeout(runSync, delay == null ? 2500 : delay);
+  }
+
+  function errText(err) {
+    switch (err && err.kind) {
+      case "network": return "Couldn't reach GitHub. Your ticks are kept in this browser and will sync when you're back online.";
+      case "token": return "GitHub didn't accept the access token. It may have expired or been deleted, so make a new one and paste it in.";
+      case "rate": return "GitHub's hourly request limit was reached. Syncing will work again within the hour.";
+      case "forbidden": return "This token can read the repository but can't save to it. Give it Contents: Read and write.";
+      case "missing": return "That repository can't be found with this token. Check the name, and that the token was given access to it.";
+      case "noplan": return "There's no plan.json at the top level of that repository. Upload it there, then connect again.";
+      case "badplan": return "The plan.json in that repository isn't a reading plan this page can read.";
+      default: return "GitHub returned an error" + (err && err.status ? " (" + err.status + ")" : "") + ". Try Sync now in a moment.";
+    }
+  }
+  function fmtTime(t) {
+    var d = new Date(t);
+    var hm = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+    return new Date().toDateString() === d.toDateString() ? hm : d.getDate() + " " + MONTHS[d.getMonth()] + " " + hm;
+  }
+  function setSyncStatus(s, err) { sync.status = s; sync.err = err || null; renderSyncStatus(); if (DATA) placeForm(); }
+  function renderSyncStatus() {
+    var note = $("syncNote"), st = $("storeStatus");
+    if (!connected()) {
+      note.hidden = true;
+      st.textContent = localOK === false
+        ? "This browser isn't letting the page save, so ticks last only until you close it. Copy a backup code before you leave."
+        : "Your ticks are saved in this browser only. Connect a private repository to keep your devices in step.";
+      st.classList.toggle("warn", localOK === false);
+      return;
+    }
+    var warn = sync.status === "error";
+    note.hidden = false;
+    note.classList.toggle("warn", warn);
+    if (sync.status === "syncing") note.textContent = "Syncing with GitHub…";
+    else if (warn) note.textContent = sync.err && sync.err.kind === "network" ? "Not synced: offline" : "Not synced: see About";
+    else note.textContent = gh.last ? "Synced with GitHub " + fmtTime(gh.last) : "Connected to GitHub";
+    var text = warn ? errText(sync.err)
+      : "Your ticks are saved to " + gh.repo + " on GitHub" + (gh.last ? ", last synced " + fmtTime(gh.last) : "") + ", and kept in this browser too.";
+    if (gh.isPublic) text += " This repository is public, so anyone can read your plan and ticks. Make it private in its settings on GitHub.";
+    st.textContent = text;
+    st.classList.toggle("warn", warn || !!gh.isPublic);
+  }
+
+  /* ------------------------------------------------------------ the plan */
+  var DATA = null, mods = [], modByNum = {}, itemById = {}, TOTAL_HOURS = 0, TOTAL_CORE = 0;
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function fmtDate(t) {
+    var d = new Date(t), now = new Date();
+    var s = d.getDate() + " " + MONTHS[d.getMonth()];
+    return d.getFullYear() === now.getFullYear() ? s : s + " " + d.getFullYear();
+  }
+  function plain(html) { var d = document.createElement("div"); d.innerHTML = html; return d.textContent; }
+  function shortText(html, n) { var t = plain(html).replace(/\s+/g, " ").trim(); return t.length > n ? t.slice(0, n - 1).replace(/[\s,;:.]+$/, "") + "…" : t; }
+
+  function modStats(m) {
+    var done = m.coreIds.filter(isDone).length;
+    var opt = m.optIds.filter(isDone).length;
+    var finished = m.coreIds.length > 0 && done === m.coreIds.length;
+    var last = 0;
+    m.coreIds.concat(m.optIds).forEach(function (id) { last = Math.max(last, doneAt(id)); });
+    var finishedAt = finished ? Math.max.apply(null, m.coreIds.map(doneAt)) : 0;
+    return { done: done, total: m.coreIds.length, opt: opt, optTotal: m.optIds.length, finished: finished, last: last, finishedAt: finishedAt };
+  }
+  function checkItem(id, html) {
+    var li = el("li");
+    var lab = el("label", "item");
+    var input = document.createElement("input");
+    input.type = "checkbox";
+    input.id = "c-" + id;
+    input.setAttribute("data-id", id);
+    lab.appendChild(input);
+    lab.appendChild(el("span", "box"));
+    lab.appendChild(el("span", "text", html));
+    li.appendChild(lab);
+    return li;
+  }
+
+  function buildStrip() {
+    var strip = $("strip");
+    DATA.parts.forEach(function (p) {
+      var hours = p.modules.reduce(function (s, n) { return s + modByNum[n].hours; }, 0);
+      var part = el("div", "strip-part");
+      part.style.flex = hours + " 1 0";
+      var segs = el("div", "strip-segs");
+      p.modules.forEach(function (n) {
+        var b = el("button", "seg");
+        b.type = "button";
+        b.style.flex = modByNum[n].hours + " 1 0";
+        b.setAttribute("data-goto", n);
+        b.id = "seg-" + n;
+        b.appendChild(el("i"));
+        segs.appendChild(b);
+      });
+      part.appendChild(segs);
+      part.appendChild(el("div", "strip-label", p.num));
+      strip.appendChild(part);
+    });
+  }
+  function buildPlan() {
+    var host = $("parts");
+    DATA.parts.forEach(function (p) {
+      var sec = el("section", "part");
+      sec.id = "part-" + p.num;
+      var h = el("h2", "part-h");
+      h.appendChild(el("span", "pnum", "Part " + p.num));
+      h.appendChild(el("span", "pname", p.name));
+      var pc = el("span", "pcount");
+      pc.id = "pcount-" + p.num;
+      h.appendChild(pc);
+      sec.appendChild(h);
+      var list = el("div", "mods");
+      p.modules.forEach(function (n) { list.appendChild(buildModule(modByNum[n])); });
+      sec.appendChild(list);
+      host.appendChild(sec);
+    });
+  }
+  function buildModule(m) {
+    var art = el("article", "mod");
+    art.id = "m" + m.num;
+    var head = el("button", "mod-head");
+    head.type = "button";
+    head.id = "mh-" + m.num;
+    head.setAttribute("aria-expanded", "false");
+    head.setAttribute("aria-controls", "mb-" + m.num);
+    head.setAttribute("data-toggle", m.num);
+    head.appendChild(el("span", "mnum", String(m.num)));
+    head.appendChild(el("span", "mtitle", m.title));
+    var meta = el("span", "mmeta");
+    meta.id = "mmeta-" + m.num;
+    head.appendChild(meta);
+    head.appendChild(el("span", "chev"));
+    var bar = el("span", "mbar");
+    bar.appendChild(el("i"));
+    head.appendChild(bar);
+    art.appendChild(head);
+
+    var body = el("div", "mod-body");
+    body.id = "mb-" + m.num;
+    body.hidden = true;
+    body.appendChild(el("p", "lead", m.lead));
+    m.core.forEach(function (g) {
+      body.appendChild(el("h3", "sub", "Core readings" + (g.label ? ' · <span class="group">' + g.label + "</span>" : "")));
+      var ul = el("ul", "checks");
+      g.items.forEach(function (it) { ul.appendChild(checkItem(it.id, it.html)); });
+      body.appendChild(ul);
+    });
+    if (m.optional.length) {
+      body.appendChild(el("h3", "sub", "Optional"));
+      var ul2 = el("ul", "checks optional");
+      m.optional.forEach(function (it) { ul2.appendChild(checkItem(it.id, it.html)); });
+      body.appendChild(ul2);
+    }
+    m.notes.forEach(function (n) { body.appendChild(el("p", "note", n)); });
+    if (m.concepts) {
+      var c = el("div", "concepts");
+      c.appendChild(el("h3", "sub", "Key concepts"));
+      c.appendChild(el("p", null, m.concepts));
+      body.appendChild(c);
+    }
+    if (m.canada) {
+      var ca = el("div", "canada");
+      ca.appendChild(el("h3", "sub", m.canadaLabel));
+      ca.appendChild(el("p", null, m.canada));
+      body.appendChild(ca);
+    }
+    if (m.questions.length) {
+      body.appendChild(el("h3", "sub", "Questions to think about"));
+      var ol = el("ol", "questions");
+      m.questions.forEach(function (q) { ol.appendChild(el("li", null, q)); });
+      body.appendChild(ol);
+    }
+    art.appendChild(body);
+    return art;
+  }
+  function buildLibrary() {
+    $("libIntro").innerHTML = DATA.libraryIntro;
+    var host = $("libGroups"), groups = {}, order = [];
+    DATA.library.forEach(function (row) {
+      var first = parseInt(row.mods, 10);
+      if (!groups[first]) { groups[first] = []; order.push(first); }
+      groups[first].push(row);
+    });
+    order.sort(function (a, b) { return a - b; });
+    order.forEach(function (n) {
+      var g = el("section", "lib-group");
+      var m = modByNum[n];
+      g.appendChild(el("h2", null, '<span class="gnum">' + n + "</span>" + (m ? m.title : "")));
+      var ul = el("ul", "lib-list");
+      groups[n].forEach(function (row) {
+        var li = el("li");
+        var multi = /[,–-]/.test(row.mods);
+        li.appendChild(el("div", "lib-doc", row.doc));
+        li.appendChild(el("div", "lib-meta", row.issuer + " · " + row.date + (multi ? ' · <span class="nw">Modules ' + row.mods + "</span>" : "")));
+        li.setAttribute("data-search", (plain(row.doc) + " " + plain(row.issuer) + " " + row.date + " module " + row.mods + " " + (m ? plain(m.title) : "")).toLowerCase());
+        ul.appendChild(li);
+      });
+      g.appendChild(ul);
+      host.appendChild(g);
+    });
+  }
+  function buildAbout() {
+    $("about").innerHTML = DATA.about;
+    $("booksIntro").innerHTML = DATA.booksIntro;
+    var books = $("books");
+    DATA.books.forEach(function (b) {
+      var d = el("div", "book");
+      d.appendChild(el("div", "b-title", b.book));
+      d.appendChild(el("div", "b-why", b.why + ' · <span class="nw">' + (b.mods === "Any" ? "Any module" : (/[,–-]/.test(b.mods) ? "Modules " : "Module ") + b.mods) + "</span>"));
+      books.appendChild(d);
+    });
+    var on = $("ongoing");
+    DATA.ongoing.forEach(function (h) { on.appendChild(el("li", null, h)); });
+    $("asof").textContent = DATA.asOf ? "Plan, links and document status as of " + DATA.asOf + "." : "";
+  }
+
+  function nextItem() {
+    var inProgress = null;
+    mods.forEach(function (m) {
+      var s = modStats(m);
+      if (s.done > 0 && !s.finished && (!inProgress || s.last > inProgress.last)) inProgress = { m: m, last: s.last };
+    });
+    var m = inProgress ? inProgress.m : null;
+    if (!m) {
+      for (var i = 0; i < mods.length; i++) { if (modStats(mods[i]).done === 0) { m = mods[i]; break; } }
+    }
+    if (!m) return null;
+    for (var j = 0; j < m.coreIds.length; j++) { if (!isDone(m.coreIds[j])) return { mod: m, id: m.coreIds[j] }; }
+    return null;
+  }
+  function renderNext() {
+    var host = $("next");
+    host.innerHTML = "";
+    var nx = nextItem();
+    var head = el("div", "next-head");
+    head.appendChild(el("span", "label", "Up next"));
+    if (nx) {
+      var go = el("button", "linkish", "Module " + nx.mod.num + " · " + nx.mod.title);
+      go.type = "button";
+      go.setAttribute("data-goto", nx.mod.num);
+      head.appendChild(go);
+      host.appendChild(head);
+      var ul = el("ul", "checks");
+      var li = checkItem(nx.id, itemById[nx.id].html);
+      li.querySelector("input").id = "next-check";
+      li.querySelector("input").setAttribute("data-next", "1");
+      ul.appendChild(li);
+      host.appendChild(ul);
+    } else {
+      host.appendChild(head);
+      var optLeft = mods.reduce(function (s, m) { return s + m.optIds.filter(function (id) { return !isDone(id); }).length; }, 0);
+      host.appendChild(el("p", "next-done", "Every core reading is ticked." + (optLeft ? " " + optLeft + " optional readings remain if you want more." : "")));
+    }
+  }
+  function renderProgress() {
+    if (!DATA) return;
+    var coreDone = 0, hoursDone = 0, finished = 0;
+    mods.forEach(function (m) {
+      var s = modStats(m);
+      coreDone += s.done;
+      var frac = s.total ? s.done / s.total : 0;
+      hoursDone += m.hours * frac;
+      if (s.finished) finished++;
+      var art = $("m" + m.num);
+      art.setAttribute("data-state", s.finished ? "done" : s.done || s.opt ? "doing" : "todo");
+      var meta = s.finished ? "Finished " + fmtDate(s.finishedAt) + " · " + m.hours + " h" : m.hours + " h · " + s.done + " of " + s.total + " read";
+      if (s.opt) meta += " · +" + s.opt + " optional";
+      $("mmeta-" + m.num).textContent = meta;
+      art.querySelector(".mbar i").style.width = (frac * 100).toFixed(1) + "%";
+      $("mh-" + m.num).setAttribute("aria-label", "Module " + m.num + ", " + plain(m.title) + ". " + meta);
+      var seg = $("seg-" + m.num);
+      seg.querySelector("i").style.width = (frac * 100).toFixed(1) + "%";
+      seg.classList.toggle("done", s.finished);
+      seg.setAttribute("aria-label", "Module " + m.num + ": " + s.done + " of " + s.total + " core readings");
+      seg.title = "Module " + m.num + " · " + plain(m.title);
+    });
+    DATA.parts.forEach(function (p) {
+      var d = 0, t = 0;
+      p.modules.forEach(function (n) { var s = modStats(modByNum[n]); d += s.done; t += s.total; });
+      $("pcount-" + p.num).textContent = d + " of " + t + " read";
+    });
+    var pct = Math.round((hoursDone / TOTAL_HOURS) * 100);
+    if (pct === 100 && coreDone < TOTAL_CORE) pct = 99;
+    $("pct").textContent = pct;
+    $("statusMain").textContent = coreDone + " of " + TOTAL_CORE + " core readings";
+    $("statusSub").textContent = "About " + Math.round(hoursDone) + " of " + TOTAL_HOURS + " hours · " + finished + " of " + mods.length + " modules finished";
+    $("tabsProgress").style.width = pct + "%";
+    var boxes = document.querySelectorAll("input[data-id]");
+    for (var i = 0; i < boxes.length; i++) boxes[i].checked = isDone(boxes[i].getAttribute("data-id"));
+    renderNext();
+  }
+
+  function startApp(data) {
+    if (DATA) return;
+    DATA = data;
+    mods = DATA.modules;
+    mods.forEach(function (m) {
+      modByNum[m.num] = m;
+      m.coreIds = [];
+      m.core.forEach(function (g) { g.items.forEach(function (it) { m.coreIds.push(it.id); itemById[it.id] = { mod: m, html: it.html }; }); });
+      m.optIds = m.optional.map(function (it) { itemById[it.id] = { mod: m, html: it.html }; return it.id; });
+    });
+    TOTAL_HOURS = mods.reduce(function (s, m) { return s + m.hours; }, 0);
+    TOTAL_CORE = mods.reduce(function (s, m) { return s + m.coreIds.length; }, 0);
+
+    $("eyebrow").textContent = "Reading plan · " + mods.length + " modules · about " + TOTAL_HOURS + " hours";
+    $("eyebrow").hidden = false;
+    $("title").textContent = String(DATA.title || "Reading plan").replace(/:\s*A Reading Plan\s*$/i, "");
+    buildStrip();
+    buildPlan();
+    buildLibrary();
+    buildAbout();
+    $("loading").hidden = true;
+    $("welcome").hidden = true;
+    $("statusBlock").hidden = false;
+    $("tabs").hidden = false;
+    renderProgress();
+    placeForm();
+    renderSyncStatus();
+
+    var hash = (location.hash || "").replace("#", "");
+    var hm = /^m(\d{1,2})$/.exec(hash);
+    if (hm && modByNum[Number(hm[1])]) {
+      goToModule(Number(hm[1]));
+    } else {
+      showTab(hash === "library" || hash === "about" ? hash : ui.tab === "library" || ui.tab === "about" ? ui.tab : "plan");
+      if (ui.open === null) { var nx = nextItem(); ui.open = nx ? [nx.mod.num] : []; }
+      ui.open.slice().forEach(function (n) { if (modByNum[n]) setOpen(n, true); });
+    }
+  }
+  function placeForm() {
+    var form = $("connectForm");
+    var needForm = !DATA || !connected() || sync.blocked;
+    if (!DATA) $("slotWelcome").appendChild(form);
+    else if (needForm) $("slotAbout").appendChild(form);
+    form.hidden = !needForm;
+    $("btnConnect").textContent = connected() && sync.blocked ? "Use this token" : "Connect";
+    $("ghActions").hidden = !(DATA && connected());
+    if (gh.repo && !$("ghRepo").value) $("ghRepo").value = gh.repo;
+  }
+  function showWelcome(message) {
+    $("loading").hidden = true;
+    $("welcome").hidden = false;
+    placeForm();
+    if (message) { $("connectMsg").textContent = message; $("connectMsg").classList.add("err"); }
+  }
+
+  /* ------------------------------------------------------------ interaction */
+  var toastTimer = null, undoId = null;
+  function showToast(text, id) {
+    undoId = id;
+    $("toastText").textContent = text;
+    $("toast").hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(hideToast, 6000);
+  }
+  function hideToast() { $("toast").hidden = true; undoId = null; }
+  function setTick(id, on) {
+    var now = Date.now();
+    state.items[id] = on ? { d: 1, t: now, a: now } : { d: 0, t: now };
+    saveLocal();
+    markChanged();
+    renderProgress();
+  }
+  document.addEventListener("change", function (e) {
+    var t = e.target;
+    if (!DATA || !t || !t.matches || !t.matches("input[data-id]")) return;
+    var id = t.getAttribute("data-id");
+    setTick(id, t.checked);
+    if (t.hasAttribute("data-next") && t.checked) showToast("Ticked: " + shortText(itemById[id].html, 60), id);
+  });
+  $("toastUndo").addEventListener("click", function () { if (undoId) setTick(undoId, false); hideToast(); });
+
+  function setOpen(n, open) {
+    $("mh-" + n).setAttribute("aria-expanded", open ? "true" : "false");
+    $("mb-" + n).hidden = !open;
+    var set = (ui.open || []).filter(function (x) { return x !== n; });
+    if (open) set.push(n);
+    ui.open = set;
+    saveUI();
+  }
+  function showTab(name) {
+    ["plan", "library", "about"].forEach(function (k) {
+      $("tab-" + k).setAttribute("aria-selected", k === name ? "true" : "false");
+      $("view-" + k).hidden = k !== name;
+    });
+    ui.tab = name;
+    saveUI();
+  }
+  function goToModule(n) {
+    showTab("plan");
+    setOpen(n, true);
+    var art = $("m" + n);
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(function () { art.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); });
+  }
+  document.addEventListener("click", function (e) {
+    if (!DATA) return;
+    var t = e.target.closest ? e.target.closest("[data-toggle],[data-goto],.tab") : null;
+    if (!t) return;
+    if (t.hasAttribute("data-toggle")) {
+      var n = Number(t.getAttribute("data-toggle"));
+      setOpen(n, t.getAttribute("aria-expanded") !== "true");
+    } else if (t.hasAttribute("data-goto")) {
+      goToModule(Number(t.getAttribute("data-goto")));
+    } else if (t.classList.contains("tab")) {
+      showTab(t.id.replace("tab-", ""));
+      window.scrollTo({ top: Math.min(window.scrollY, document.querySelector(".band").offsetHeight) });
+    }
+  });
+  $("libFilter").addEventListener("input", function (e) {
+    var words = e.target.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    var any = false;
+    document.querySelectorAll(".lib-group").forEach(function (g) {
+      var shown = 0;
+      g.querySelectorAll("li").forEach(function (li) {
+        var hay = li.getAttribute("data-search");
+        var ok = words.every(function (w) { return hay.indexOf(w) !== -1; });
+        li.hidden = !ok;
+        if (ok) shown++;
+      });
+      g.hidden = shown === 0;
+      if (shown) any = true;
+    });
+    $("libEmpty").hidden = any;
+  });
+
+  /* connect, sync, disconnect */
+  $("connectForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var msgEl = $("connectMsg"), btn = $("btnConnect");
+    function say(text, err) { msgEl.textContent = text; msgEl.classList.toggle("err", !!err); }
+    var repo = parseRepo($("ghRepo").value), token = $("ghToken").value.trim();
+    if (!repo) { say("Enter the repository as owner/name, for example jsmith/reading-progress.", true); return; }
+    if (!token) { say("Paste the access token.", true); return; }
+    btn.disabled = true;
+    say("Connecting…");
+    var prev = { repo: gh.repo, token: gh.token, isPublic: gh.isPublic };
+    gh.repo = repo;
+    gh.token = token;
+    api("GET", "/repos/" + repo).then(function (res) {
+      if (!res.ok) throw failFor(res);
+      return res.json();
+    }).then(function (info) {
+      gh.isPublic = !!(info && info.private === false);
+      return fetchPlan().catch(function (err) {
+        if (err.kind === "noplan" && DATA) return { changed: false };
+        throw err;
+      });
+    }).then(function (r) {
+      sync.blocked = false;
+      sync.sha = undefined;
+      gh.last = 0;
+      saveGh();
+      $("ghToken").value = "";
+      say("");
+      if (r.changed && DATA) { location.reload(); return; }
+      if (!DATA) startApp(r.data);
+      placeForm();
+      renderSyncStatus();
+      return runSync();
+    }).catch(function (err) {
+      gh.repo = prev.repo;
+      gh.token = prev.token;
+      gh.isPublic = prev.isPublic;
+      say(errText(err), true);
+    }).then(function () { btn.disabled = false; });
+  });
+  $("btnSync").addEventListener("click", function () { sync.blocked = false; runSync(); });
+
+  function msg(text, err) { var m = $("panelMsg"); m.textContent = text; m.classList.toggle("err", !!err); }
+  function togglePanel(btnId, panelId, open) {
+    $(panelId).hidden = !open;
+    if (btnId) $(btnId).setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  $("btnDisconnectOpen").addEventListener("click", function (e) {
+    togglePanel("btnDisconnectOpen", "disconnectPanel", e.currentTarget.getAttribute("aria-expanded") !== "true");
+  });
+  $("btnDisconnectCancel").addEventListener("click", function () { forceDisconnect = false; togglePanel("btnDisconnectOpen", "disconnectPanel", false); });
+  var forceDisconnect = false;
+  $("btnDisconnect").addEventListener("click", function () {
+    function finish() {
+      [K.gh, K.plan, K.ticks, K.ui, K.ticks + ":probe"].forEach(lsRemove);
+      location.replace(location.pathname);
+    }
+    if (!sync.pending || forceDisconnect) { finish(); return; }
+    runSync().then(function () {
+      if (sync.status === "error") {
+        forceDisconnect = true;
+        msg("Your latest ticks couldn't be saved to GitHub, so nothing was removed yet. Copy a backup code if you want them, then tap Disconnect again to remove everything anyway.", true);
+        return;
+      }
+      finish();
+    });
+  });
+
+  document.addEventListener("visibilitychange", function () {
+    if (!DATA || !connected() || sync.blocked) return;
+    if (document.visibilityState === "visible") { if (Date.now() - sync.lastPull > 15000) runSync(); }
+    else if (sync.pending) runSync();
+  });
+  window.addEventListener("online", function () { if (DATA && connected() && !sync.blocked) runSync(); });
+
+  /* backup, restore, clear */
+  var PREFIX = "SRP1:";
+  function encode() {
+    var ticked = {};
+    Object.keys(state.items).forEach(function (id) { if (isDone(id)) ticked[id] = state.items[id]; });
+    return PREFIX + b64enc(JSON.stringify({ v: 1, items: ticked }));
+  }
+  function decode(code) {
+    code = (code || "").replace(/\s+/g, "");
+    if (code.indexOf(PREFIX) !== 0) return null;
+    try {
+      var o = JSON.parse(b64dec(code.slice(PREFIX.length)));
+      return o && o.items && typeof o.items === "object" ? o.items : null;
+    } catch (e) { return null; }
+  }
+  $("btnBackup").addEventListener("click", function () {
+    var code = encode(), ta = $("backupText");
+    ta.value = code;
+    var count = Object.keys(state.items).filter(isDone).length;
+    function fallback() {
+      togglePanel(null, "backupPanel", true);
+      ta.focus();
+      ta.select();
+      msg("Select the code above and copy it somewhere safe, such as a note. It holds " + count + " ticks.");
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(function () {
+          togglePanel(null, "backupPanel", false);
+          msg("Copied a backup of " + count + " ticks. Paste it somewhere safe, such as a note.");
+        }, fallback);
+      } else fallback();
+    } catch (e) { fallback(); }
+  });
+  $("btnRestoreOpen").addEventListener("click", function (e) {
+    var open = e.currentTarget.getAttribute("aria-expanded") !== "true";
+    togglePanel("btnRestoreOpen", "restorePanel", open);
+    togglePanel("btnClearOpen", "clearPanel", false);
+    msg("");
+    if (open) $("restoreText").focus();
+  });
+  $("btnRestore").addEventListener("click", function () {
+    var items = decode($("restoreText").value);
+    if (!items) { msg("That isn't a backup code from this page. Paste the whole code, starting with SRP1:", true); return; }
+    // A restore adds the code's ticks back and never removes a tick you have now.
+    var now = Date.now(), added = 0;
+    Object.keys(items).forEach(function (id) {
+      var rec = cleanRecord(items[id]);
+      if (!rec || !rec.d || isDone(id)) return;
+      state.items[id] = { d: 1, t: now, a: rec.a || rec.t };
+      added++;
+    });
+    $("restoreText").value = "";
+    togglePanel("btnRestoreOpen", "restorePanel", false);
+    if (!added) { msg("Nothing to add: every tick in that code is already here."); return; }
+    saveLocal();
+    markChanged(0);
+    renderProgress();
+    msg("Restored " + added + (added === 1 ? " tick." : " ticks."));
+  });
+  $("btnClearOpen").addEventListener("click", function (e) {
+    var open = e.currentTarget.getAttribute("aria-expanded") !== "true";
+    var count = Object.keys(state.items).filter(isDone).length;
+    $("clearPrompt").textContent = count
+      ? "Clear all " + count + " ticks" + (connected() ? ", here and in your repository" : "") + "? This can't be undone, so copy a backup code first if you might want them back."
+      : "There are no ticks to clear.";
+    $("btnClear").hidden = !count;
+    togglePanel("btnClearOpen", "clearPanel", open);
+    togglePanel("btnRestoreOpen", "restorePanel", false);
+    msg("");
+  });
+  $("btnClearCancel").addEventListener("click", function () { togglePanel("btnClearOpen", "clearPanel", false); });
+  $("btnClear").addEventListener("click", function () {
+    var now = Date.now();
+    Object.keys(state.items).forEach(function (id) { if (isDone(id)) state.items[id] = { d: 0, t: now }; });
+    saveLocal();
+    markChanged(0);
+    renderProgress();
+    togglePanel("btnClearOpen", "clearPanel", false);
+    msg("All ticks cleared.");
+  });
+
+  /* ------------------------------------------------------------ start */
+  loadLocal();
+  localOK = lsSet(K.ticks + ":probe", "1");
+  lsRemove(K.ticks + ":probe");
+  var cached = readJSON(K.plan);
+  if (cached && cached.data && Array.isArray(cached.data.modules)) startApp(cached.data);
+  if (connected()) {
+    if (!DATA) $("loading").textContent = "Loading your plan…";
+    fetchPlan().then(function (r) {
+      if (r.changed) {
+        if (DATA) { location.reload(); return; }
+        startApp(r.data);
+      }
+      return runSync();
+    }, function (err) {
+      if (err && err.kind === "token") sync.blocked = true;
+      if (!DATA) showWelcome(errText(err));
+      setSyncStatus("error", err);
+    });
+  } else if (!DATA) {
+    fetch(PLAN_FILE, { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (d && Array.isArray(d.modules)) startApp(d); else showWelcome();
+    }).catch(function () { showWelcome(); });
+  }
+})();
+</script>
+</body>
+</html>

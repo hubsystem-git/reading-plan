@@ -1,0 +1,13 @@
+{
+  "name": "Reading Plan",
+  "short_name": "Reading Plan",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#13284f",
+  "theme_color": "#13284f",
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
